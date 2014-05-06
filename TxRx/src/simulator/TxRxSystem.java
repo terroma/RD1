@@ -6,7 +6,7 @@ import simulator.TxRxEvent.TxRxEventType;
 public class TxRxSystem {
 
     // Parametros da simulação
-	 static int MAX_DATA  = 10000;
+	 static int MAX_DATA  = 100;
 	
 	 static int DATA_SIZE;
 	 static double INTERVAL = 1.0;
