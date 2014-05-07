@@ -6,7 +6,7 @@ import simulator.TxRxEvent.TxRxEventType;
 public class TxRxSystem {
 
     // Parametros da simulação
-	 static int MAX_DATA  = 100;
+	 static int MAX_DATA  = 10;
 	
 	 static int DATA_SIZE;
 	 static double INTERVAL = 1.0;
@@ -15,7 +15,10 @@ public class TxRxSystem {
 	 static double DISTANCIA;
 	 
 	 static double Peb=0.1;
-	
+	 
+	 double tempoInicial=Simulator.getClock();
+	 double asd;
+	 
 	// Contadores Estatisticos	
     static double delayQ   = 0.0;
 	static double delayQtx = 0.0;
@@ -79,7 +82,11 @@ public class TxRxSystem {
 					break;
 					
 				case ACK:
-					receiver.ACK((Data)(current.data()), source.getMaxData(), source.getMeanDataInterval());
+					transmiter.ACK((Data)(current.data()), source.getMaxData(), source.getMeanDataInterval());
+					break;
+					
+				case Timeout:
+					transmiter.Timeout((Data)(current.data()));
 					break;
 			}					
 			/* Retira da lista o próximo acontecimento */
@@ -95,6 +102,8 @@ public class TxRxSystem {
 		s = s+"Numero medio de tramas na fila, Nq = "+(delayQ/Simulator.getClock())+"\n";
 		s = s+"Numero medio de tramas na fila ou a transmitir, Nqtx = "+(delayQtx/Simulator.getClock())+"\n";
 		s = s+"Numero medio de tramas no sistema total, Nsistema = "+(delaySys/Simulator.getClock())+"\n";
+		s = s+"U = "+(1/(1+2*(MAX_DATA*(DATA_SIZE/RITMO_BINARIO))/Simulator.getClock()));
+		System.out.println("\nMax_Data: "+MAX_DATA+"\nData_Size: "+DATA_SIZE+"\nRitmo: "+RITMO_BINARIO+"\n"+Simulator.getClock());
 		Simulator.info(s);
 	}
 

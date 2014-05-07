@@ -1,5 +1,7 @@
 package simulator;
 
+import java.util.Random;
+
 import simulator.TxRxEvent.TxRxEventType;
 
 /**
@@ -23,13 +25,13 @@ public class Receiver {
 	private double Peb;
 	private int m;
 	private double PROB_CORR;
-	private int sent;
 
 	public Receiver(double Peb, int DATA_SIZE) {
 		state = State.WAIT;
 		m = DATA_SIZE;
 		this.Peb = Peb;
-		PROB_CORR = Math.pow((1 - Peb), (m + 8));
+		PROB_CORR = 1 - Math.pow((1 - Peb), (26 + 8));
+		PROB_CORR = 0.8;
 	}
 
 	/**
@@ -82,36 +84,20 @@ public class Receiver {
 				+ "\t" + Simulator.getClock() + "\t" + "-" + "\t" + "-";
 		Simulator.data(s);
 
-		Simulator.addEvent(new TxRxEvent(Simulator.getClock(),
-				TxRxEventType.ACK, data));
+		if (Successful())
+			Simulator.addEvent(new TxRxEvent(Simulator.getClock(),
+					TxRxEventType.ACK, data));
+		
 
 	}
 
-	public void ACK(Data data, int maxData, double meanDataInterval) {
-
-		state = State.WAIT;
-
-		// Update statistics
-
-		// Output
-		String s = "[Receiver@";
-		s = s + Simulator.getClock() + " ACK Data ID: " + data.getID() + "]";
-		Simulator.debug(s);
-
-		s = "" + Simulator.getClock() + "\t" + "Srx" + "\t" + data.getID()
-				+ "\t";
-		s = s + data.getTimeStamp() + "\t" + "-" + "\t" + "-" + "\t"
-				+ Simulator.getClock() + "\t" + "-" + "\t" + "-" + "\t" + "-";
-		Simulator.data(s);
-
-		sent++;
-		if (sent < maxData) {	
-			// Constant Rate...
-			double dataInterval = meanDataInterval;
-			Simulator.addEvent(new TxRxEvent (Simulator.getClock()+dataInterval, TxRxEvent.TxRxEventType.Generate_DATA, null));
-		}
-		
-		
-		
+	private boolean Successful() {
+		/*Random rand = new Random();
+		double randInt = rand.nextDouble();
+		if (randInt > PROB_CORR) {
+			System.out.println("\n !!!!!  FODEU  !!!!!  " + randInt+"\n");
+			return false;
+		}*/
+		return true;
 	}
 }
