@@ -28,6 +28,9 @@ public class Receiver {
 	private double Peb;
 	private int m;
 	private double PROB_CORR;
+<<<<<<< HEAD
+>>>>>>> FETCH_HEAD
+=======
 >>>>>>> FETCH_HEAD
 
 	public Receiver(double Peb) {
@@ -40,6 +43,9 @@ public class Receiver {
 		this.Peb = Peb;
 		PROB_CORR = 1 - Math.pow((1 - Peb), (26 + 8));
 		PROB_CORR = 0.8;
+<<<<<<< HEAD
+>>>>>>> FETCH_HEAD
+=======
 >>>>>>> FETCH_HEAD
 	}
 
@@ -94,6 +100,7 @@ public class Receiver {
 		Simulator.data(s);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if (Successful()){
 			Simulator.addEvent(new TxRxEvent(Simulator.getClock(),
 					TxRxEventType.ACK, data));
@@ -115,6 +122,14 @@ public class Receiver {
 		
 
 	}
+=======
+		if (Successful())
+			Simulator.addEvent(new TxRxEvent(Simulator.getClock(),
+					TxRxEventType.ACK, data));
+		
+
+	}
+>>>>>>> FETCH_HEAD
 
 	private boolean Successful() {
 		/*Random rand = new Random();
@@ -123,6 +138,9 @@ public class Receiver {
 			System.out.println("\n !!!!!  FODEU  !!!!!  " + randInt+"\n");
 			return false;
 		}*/
+<<<<<<< HEAD
+>>>>>>> FETCH_HEAD
+=======
 >>>>>>> FETCH_HEAD
 		return true;
 	}

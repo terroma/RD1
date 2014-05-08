@@ -23,6 +23,12 @@ public class TxRxSystem {
 	 static double Peb=0.1;
 	 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	 double tempoInicial=Simulator.getClock();
+	 double asd;
+	 
+>>>>>>> FETCH_HEAD
 =======
 	 double tempoInicial=Simulator.getClock();
 	 double asd;
@@ -92,8 +98,12 @@ public class TxRxSystem {
 					
 				case ACK:
 <<<<<<< HEAD
+<<<<<<< HEAD
 					transmiter.ACK((Data)(current.data()), source.getMaxData());
 					System.out.println(source.getMeanDataInterval());
+=======
+					transmiter.ACK((Data)(current.data()), source.getMaxData(), source.getMeanDataInterval());
+>>>>>>> FETCH_HEAD
 =======
 					transmiter.ACK((Data)(current.data()), source.getMaxData(), source.getMeanDataInterval());
 >>>>>>> FETCH_HEAD
@@ -118,8 +128,12 @@ public class TxRxSystem {
 		s = s+"Numero medio de tramas na fila ou a transmitir, Nqtx = "+(delayQtx/Simulator.getClock())+"\n";
 		s = s+"Numero medio de tramas no sistema total, Nsistema = "+(delaySys/Simulator.getClock())+"\n";
 <<<<<<< HEAD
+<<<<<<< HEAD
 //		s = s+"U = "+((MAX_DATA*(DATA_SIZE/RITMO_BINARIO))/(Simulator.getClock()/1000));
 		s = s+"U = "+((MAX_DATA*(DATA_SIZE/RITMO_BINARIO))/(Simulator.getClock()));
+=======
+		s = s+"U = "+(1/(1+2*(MAX_DATA*(DATA_SIZE/RITMO_BINARIO))/Simulator.getClock()));
+>>>>>>> FETCH_HEAD
 =======
 		s = s+"U = "+(1/(1+2*(MAX_DATA*(DATA_SIZE/RITMO_BINARIO))/Simulator.getClock()));
 >>>>>>> FETCH_HEAD
