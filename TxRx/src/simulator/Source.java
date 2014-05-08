@@ -28,7 +28,7 @@ public class Source {
 		// Constant Size..
 		int dataSize = meanDataSize;
 		Data data = new Data(Simulator.getClock(), sent, dataSize);	
-		
+		sent++;
 		TxRxEvent newEvent = new TxRxEvent (Simulator.getClock()+0.0,
 				                  TxRxEvent.TxRxEventType.Arrival_DATA, data);
 		Simulator.addEvent(newEvent);

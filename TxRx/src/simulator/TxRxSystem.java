@@ -5,9 +5,15 @@ import simulator.TxRxEvent.TxRxEventType;
 
 public class TxRxSystem {
 
+<<<<<<< HEAD
     // Parametros da simula����o
 	 static int MAX_DATA  = 10;
 	 
+=======
+    // Parametros da simulação
+	 static int MAX_DATA  = 10;
+	
+>>>>>>> FETCH_HEAD
 	 static int DATA_SIZE;
 	 static double INTERVAL = 1.0;
 	
@@ -16,6 +22,12 @@ public class TxRxSystem {
 	 
 	 static double Peb=0.1;
 	 
+<<<<<<< HEAD
+=======
+	 double tempoInicial=Simulator.getClock();
+	 double asd;
+	 
+>>>>>>> FETCH_HEAD
 	// Contadores Estatisticos	
     static double delayQ   = 0.0;
 	static double delayQtx = 0.0;
@@ -79,8 +91,12 @@ public class TxRxSystem {
 					break;
 					
 				case ACK:
+<<<<<<< HEAD
 					transmiter.ACK((Data)(current.data()), source.getMaxData());
 					System.out.println(source.getMeanDataInterval());
+=======
+					transmiter.ACK((Data)(current.data()), source.getMaxData(), source.getMeanDataInterval());
+>>>>>>> FETCH_HEAD
 					break;
 					
 				case Timeout:
@@ -101,8 +117,12 @@ public class TxRxSystem {
 		s = s+"Numero medio de tramas na fila, Nq = "+(delayQ/Simulator.getClock())+"\n";
 		s = s+"Numero medio de tramas na fila ou a transmitir, Nqtx = "+(delayQtx/Simulator.getClock())+"\n";
 		s = s+"Numero medio de tramas no sistema total, Nsistema = "+(delaySys/Simulator.getClock())+"\n";
+<<<<<<< HEAD
 //		s = s+"U = "+((MAX_DATA*(DATA_SIZE/RITMO_BINARIO))/(Simulator.getClock()/1000));
 		s = s+"U = "+((MAX_DATA*(DATA_SIZE/RITMO_BINARIO))/(Simulator.getClock()));
+=======
+		s = s+"U = "+(1/(1+2*(MAX_DATA*(DATA_SIZE/RITMO_BINARIO))/Simulator.getClock()));
+>>>>>>> FETCH_HEAD
 		System.out.println("\nMax_Data: "+MAX_DATA+"\nData_Size: "+DATA_SIZE+"\nRitmo: "+RITMO_BINARIO+"\n"+Simulator.getClock());
 		Simulator.info(s);
 	}

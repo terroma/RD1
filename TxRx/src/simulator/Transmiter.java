@@ -127,7 +127,11 @@ public class Transmiter {
 		startTx(data);
 	}
 
+<<<<<<< HEAD
 	public void ACK(Data data, int maxData) {
+=======
+	public void ACK(Data data, int maxData, double meanDataInterval) {
+>>>>>>> FETCH_HEAD
 
 		Simulator.removeEvent(timeout);
 		state = State.IDLE;
@@ -147,9 +151,17 @@ public class Transmiter {
 
 		sent++;
 		if (sent < maxData) {
+<<<<<<< HEAD
 			
 			Simulator.addEvent(new TxRxEvent(
 							Simulator.getClock(),
+=======
+			// Constant Rate...
+			double dataInterval = meanDataInterval;
+			Simulator
+					.addEvent(new TxRxEvent(
+							Simulator.getClock() + dataInterval,
+>>>>>>> FETCH_HEAD
 							TxRxEvent.TxRxEventType.Generate_DATA, null));
 		}
 	}

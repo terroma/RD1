@@ -22,12 +22,25 @@ public class Receiver {
 	};
 
 	private State state;
+<<<<<<< HEAD
 	private double PROB_ERROR;
+=======
+	private double Peb;
+	private int m;
+	private double PROB_CORR;
+>>>>>>> FETCH_HEAD
 
 	public Receiver(double Peb) {
 		state = State.WAIT;
+<<<<<<< HEAD
 		
 		PROB_ERROR = 1 - Math.pow((1 - Peb), (26 + 8));
+=======
+		m = DATA_SIZE;
+		this.Peb = Peb;
+		PROB_CORR = 1 - Math.pow((1 - Peb), (26 + 8));
+		PROB_CORR = 0.8;
+>>>>>>> FETCH_HEAD
 	}
 
 	/**
@@ -80,6 +93,7 @@ public class Receiver {
 				+ "\t" + Simulator.getClock() + "\t" + "-" + "\t" + "-";
 		Simulator.data(s);
 
+<<<<<<< HEAD
 		if (Successful()){
 			Simulator.addEvent(new TxRxEvent(Simulator.getClock(),
 					TxRxEventType.ACK, data));
@@ -94,6 +108,22 @@ public class Receiver {
 			System.out.println("\n !!!!!  FODEU  !!!!!  " + randInt+"\n");
 			return false;
 		}
+=======
+		if (Successful())
+			Simulator.addEvent(new TxRxEvent(Simulator.getClock(),
+					TxRxEventType.ACK, data));
+		
+
+	}
+
+	private boolean Successful() {
+		/*Random rand = new Random();
+		double randInt = rand.nextDouble();
+		if (randInt > PROB_CORR) {
+			System.out.println("\n !!!!!  FODEU  !!!!!  " + randInt+"\n");
+			return false;
+		}*/
+>>>>>>> FETCH_HEAD
 		return true;
 	}
 }
