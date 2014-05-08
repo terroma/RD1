@@ -1,14 +1,16 @@
 package simulator;
 
+import java.util.Random;
+
 import simulator.TxRxEvent.TxRxEventType;
 
 /**
  * 
  * Esta classe implementa o comportamento de um receptor..<br>
  * <br>
- * Possuí métodos para:<br>
- * - Iniciar a recepçao de dados {@link Sender.Data}.<br>
- * - Terminar a recepçao de dados {@link Sender.Data}.<br>
+ * Possu�� m��todos para:<br>
+ * - Iniciar a recep��ao de dados {@link Sender.Data}.<br>
+ * - Terminar a recep��ao de dados {@link Sender.Data}.<br>
  * 
  * @author Grupo de Redes do ISCTE (20012/13)
  * 
@@ -20,20 +22,16 @@ public class Receiver {
 	};
 
 	private State state;
-	private double Peb;
-	private int m;
-	private double PROB_CORR;
-	private int sent;
+	private double PROB_ERROR;
 
-	public Receiver(double Peb, int DATA_SIZE) {
+	public Receiver(double Peb) {
 		state = State.WAIT;
-		m = DATA_SIZE;
-		this.Peb = Peb;
-		PROB_CORR = Math.pow((1 - Peb), (m + 8));
+		
+		PROB_ERROR = 1 - Math.pow((1 - Peb), (26 + 8));
 	}
 
 	/**
-	 * Inicia a recepção de dados.
+	 * Inicia a recep����o de dados.
 	 * 
 	 * @param Os
 	 *            dados recebidos.
@@ -64,8 +62,8 @@ public class Receiver {
 
 		// Update statistics
 		/*
-		 * Ao tempo total no sistema, delaySys é adicionado o tempo passado no
-		 * sistema (tempoActual-tempoGeração) da trama que acabou de ser
+		 * Ao tempo total no sistema, delaySys �� adicionado o tempo passado no
+		 * sistema (tempoActual-tempoGera����o) da trama que acabou de ser
 		 * recebida
 		 */
 		TxRxSystem.delaySys += Simulator.getClock() - data.getTimeStamp();
@@ -82,36 +80,20 @@ public class Receiver {
 				+ "\t" + Simulator.getClock() + "\t" + "-" + "\t" + "-";
 		Simulator.data(s);
 
-		Simulator.addEvent(new TxRxEvent(Simulator.getClock(),
-				TxRxEventType.ACK, data));
+		if (Successful()){
+			Simulator.addEvent(new TxRxEvent(Simulator.getClock(),
+					TxRxEventType.ACK, data));
+		}
 
 	}
-
-	public void ACK(Data data, int maxData, double meanDataInterval) {
-
-		state = State.WAIT;
-
-		// Update statistics
-
-		// Output
-		String s = "[Receiver@";
-		s = s + Simulator.getClock() + " ACK Data ID: " + data.getID() + "]";
-		Simulator.debug(s);
-
-		s = "" + Simulator.getClock() + "\t" + "Srx" + "\t" + data.getID()
-				+ "\t";
-		s = s + data.getTimeStamp() + "\t" + "-" + "\t" + "-" + "\t"
-				+ Simulator.getClock() + "\t" + "-" + "\t" + "-" + "\t" + "-";
-		Simulator.data(s);
-
-		sent++;
-		if (sent < maxData) {	
-			// Constant Rate...
-			double dataInterval = meanDataInterval;
-			Simulator.addEvent(new TxRxEvent (Simulator.getClock()+dataInterval, TxRxEvent.TxRxEventType.Generate_DATA, null));
+// 
+	private boolean Successful() {
+		Random rand = new Random();
+		double randInt = rand.nextDouble();
+		if (randInt < PROB_ERROR) {
+			System.out.println("\n !!!!!  FODEU  !!!!!  " + randInt+"\n");
+			return false;
 		}
-		
-		
-		
+		return true;
 	}
 }

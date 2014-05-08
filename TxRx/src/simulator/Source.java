@@ -7,7 +7,7 @@ public class Source {
 	private int maxData;
 	private double meanDataInterval;
 	private int meanDataSize;
-	private int sent = 0; // Contador do número de tramas enviadas
+	private int sent = 0; // Contador do n��mero de tramas enviadas
 	
 	public Source(int max_data, int size, double interval) {
 		maxData = max_data;
@@ -33,8 +33,13 @@ public class Source {
 				                  TxRxEvent.TxRxEventType.Arrival_DATA, data);
 		Simulator.addEvent(newEvent);
 		
-		
-		
+//		sent++;
+//		if (sent < maxData) {	
+//			// Constant Rate...
+//			double dataInterval = -1.0*meanDataInterval*Math.log(Math.random());
+//			newEvent = new TxRxEvent (Simulator.getClock()+dataInterval, TxRxEvent.TxRxEventType.Generate_DATA, null);
+//			Simulator.addEvent(newEvent);
+//		}
 		// Output
 		String s = "[Source@";
 		s=s+Simulator.getClock()+" Generating Data ID: "+data.getID()+"]";
@@ -42,6 +47,6 @@ public class Source {
 		
         s=""+Simulator.getClock()+"\t"+"G"+"\t"+data.getID()+"\t";
         s=s+data.getTimeStamp()+"\t"+"-"+"\t"+"-"+"\t"+"-"+"\t"+"-"+"\t"+"-"+"\t"+"-";
-		Simulator.data(s);		
+		Simulator.data(s);	
 	}
 }

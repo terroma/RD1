@@ -2,6 +2,7 @@ package simulator;
 
 import java.util.LinkedList;
 
+import simulator.Receiver.State;
 import simulator.TxRxEvent.TxRxEventType;
 
 public class Transmiter {
@@ -15,6 +16,8 @@ public class Transmiter {
 	static double vp = 200000000.0; // vp = 2e8 m/s.
 	State state;
 	LinkedList<Data> queue;
+	private int sent;
+	private TxRxEvent timeout;
 
 	Transmiter(double binaryRate, double length, int DATA_SIZE) {
 
@@ -67,10 +70,10 @@ public class Transmiter {
 
 		// Sec????o a completar
 		state = State.TX;
-		
-		Simulator.addEvent(new TxRxEvent(Simulator.getClock() + data.getSize()/Rb,
-				TxRxEventType.StopTX, data));
-		
+
+		Simulator.addEvent(new TxRxEvent(Simulator.getClock()
+				+ (data.getSize() / Rb), TxRxEventType.StopTX, data));
+
 		Simulator.addEvent(new TxRxEvent(Simulator.getClock() + (d / vp),
 				TxRxEventType.StartRX, data));
 
@@ -95,10 +98,19 @@ public class Transmiter {
 			Simulator.debug(s);
 
 			// Sec????o a completar
+
+			double Trtt = (d / vp) + Simulator.getClock() - data.getTimeStamp();
+			double Tout = (d / vp + L / Rb) * 1.01;
+
+			
+			
 			Simulator.addEvent(new TxRxEvent(Simulator.getClock() + (d / vp),
 					TxRxEventType.StopRX, data));
-			//Simulator.addEvent(new TxRxEvent(Simulator.getClock(),
-				//	TxRxEventType.ACK, data));
+
+			timeout = new TxRxEvent(Simulator.getClock() + 0.35,
+					TxRxEventType.Timeout, data);
+			Simulator.addEvent(timeout);
+
 			if (queue.isEmpty()) {
 				state = State.IDLE;
 			} else {
@@ -111,4 +123,34 @@ public class Transmiter {
 		}
 	}
 
+	public void Timeout(Data data) {
+		startTx(data);
+	}
+
+	public void ACK(Data data, int maxData) {
+
+		Simulator.removeEvent(timeout);
+		state = State.IDLE;
+
+		// Update statistics
+
+		// Output
+		String s = "[Transmiter@";
+		s = s + Simulator.getClock() + " ACK Data ID: " + data.getID() + "]";
+		Simulator.debug(s);
+
+		s = "" + Simulator.getClock() + "\t" + "Srx" + "\t" + data.getID()
+				+ "\t";
+		s = s + data.getTimeStamp() + "\t" + "-" + "\t" + "-" + "\t"
+				+ Simulator.getClock() + "\t" + "-" + "\t" + "-" + "\t" + "-";
+		Simulator.data(s);
+
+		sent++;
+		if (sent < maxData) {
+			
+			Simulator.addEvent(new TxRxEvent(
+							Simulator.getClock(),
+							TxRxEvent.TxRxEventType.Generate_DATA, null));
+		}
+	}
 }
